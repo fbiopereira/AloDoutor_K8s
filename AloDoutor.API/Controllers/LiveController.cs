@@ -16,7 +16,7 @@ namespace AloDoutor.Api.Controllers
         /// Indica para sistemas de monitoração que a API está UP.
         /// </summary>
         /// <returns>String com Data e Hora correntes.</returns>
-        [HttpGet("/")]
+        [HttpGet("/live")]
         public IActionResult ImAlive()
         {
             _logger.LogInformation("Estou vivo.");
