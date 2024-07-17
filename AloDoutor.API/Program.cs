@@ -17,6 +17,7 @@ builder.Services.AddApiConfig(builder.Configuration);
 builder.Services.AddSerilogConfiguration(builder.Configuration, builder.Environment);
 
 builder.Services.AddSwaggerConfiguration();
+builder.Services.AddHealthCheck(builder.Configuration);
 
 var app = builder.Build();
 
@@ -24,6 +25,7 @@ var app = builder.Build();
 app.UseSwaggerConfiguration();
 
 app.UseApiConfiguration(app.Environment);
+app.ConfigureHealthCheck();
 
 app.Run();
 
