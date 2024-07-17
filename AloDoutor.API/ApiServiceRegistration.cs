@@ -40,11 +40,11 @@ namespace AloDoutor.Api
             {
                 app.UseDeveloperExceptionPage();
 
-                using (var scope = app.ApplicationServices.CreateScope())
-                {
-                    var dbContext = scope.ServiceProvider.GetRequiredService<MeuDbContext>();
-                     dbContext.Database.Migrate();
-                }
+                //using (var scope = app.ApplicationServices.CreateScope())
+                //{
+                //    var dbContext = scope.ServiceProvider.GetRequiredService<MeuDbContext>();
+                //     dbContext.Database.Migrate();
+                //}
             }
 
             if (env.IsStaging())
