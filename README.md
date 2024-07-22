@@ -1,19 +1,23 @@
 # Clínica Alô Doutor
 ## Índice
-- [Clínica Alo Doutor](#clínica-alô-doutor)
-    - [Sobre](#sobre) 
-    - [Integrantes](#integrantes)  
-    - [Tecnologias Utilizadas](#tecnologias-utilizadas)
-    - [Solução](#solução)
-        - [Como Executar o Projeto](#como-executar-o-projeto)    
-        - [Como Executar o Projeto no Kubernetes](#como-executar-o-projeto-no-kubernetes)            
+- [Clínica Alô Doutor](#clínica-alô-doutor)
+  - [Índice](#índice)
+  - [Sobre](#sobre)
+  - [Integrantes](#integrantes)
+  - [Tecnologias Utilizadas](#tecnologias-utilizadas)
+  - [Solução](#solução)
+  - [Como Executar o Projeto](#como-executar-o-projeto)
+  - [Como Executar o Projeto no Kubernetes](#como-executar-o-projeto-no-kubernetes)
+    - [Rancher Desktop](#rancher-desktop)
+    - [Docker Desktop](#docker-desktop)
+  - [Testes](#testes)
   - [Levantamento de Requisitos](#levantamento-de-requisitos)
     - [Histórico da Clínica](#histórico-da-clínica)
     - [DDD](#ddd)
-        - [Domain Storytelling](#domain-storytelling)
-        - [Domínios e Contextos Delimitados Identificados](#domínios-e-contextos-delimitados-identificados)
-            - [Domínios](#domínios)
-            - [Contextos Delimitados](#contextos-delimitados)
+      - [Domain Storytelling](#domain-storytelling)
+      - [Domínios e Contextos Delimitados Identificados](#domínios-e-contextos-delimitados-identificados)
+        - [Domínios](#domínios)
+      - [Contextos Delimitados](#contextos-delimitados)
     - [Critérios de Aceite](#critérios-de-aceite)
     
 
@@ -24,25 +28,25 @@ Este projeto faz parte do trabalho de conclusão da primeira fase da POSTECH FIA
 
 ## Integrantes
 
-| Nome | RM | GitHub
------------- | ------------- | -------------
-Alex Jussiani Junior | 350671 | https://github.com/AlexJussiani
-Erick Setti dos Santos | 351206 | https://github.com/ESettiCalculist
-Fábio da Silva Pereira | 351053 | https://github.com/fbiopereira
-Richard Kendy Tanaka| 351234 | https://github.com/RichardKT88
+| Nome                   | RM     | GitHub                             |
+| ---------------------- | ------ | ---------------------------------- |
+| Alex Jussiani Junior   | 350671 | https://github.com/AlexJussiani    |
+| Erick Setti dos Santos | 351206 | https://github.com/ESettiCalculist |
+| Fábio da Silva Pereira | 351053 | https://github.com/fbiopereira     |
+| Richard Kendy Tanaka   | 351234 | https://github.com/RichardKT88     |
 
 [voltar](#índice)
 
 ## Tecnologias Utilizadas
 
-| Tecnologias | Uso
------------- | -------------
-[C#](https://docs.microsoft.com/en-us/dotnet/csharp/) | Linguagem de Programação
-[.NET](https://dotnet.microsoft.com/) | Framework web
-[Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/) | Biblioteca para persistência de Dados (ORM)
-[Serilog](https://serilog.net/) | Captura de Logs
-[Visual Studio 2022](https://visualstudio.microsoft.com/pt-br/) | Editor de Código
-[Run Coverlet Report](https://github.com/the-dext/RunCoverletReport/blob/master/README.md) | Plugin do Visual Studio para analisar a cobertura de testes
+| Tecnologias                                                                                | Uso                                                         |
+| ------------------------------------------------------------------------------------------ | ----------------------------------------------------------- |
+| [C#](https://docs.microsoft.com/en-us/dotnet/csharp/)                                      | Linguagem de Programação                                    |
+| [.NET](https://dotnet.microsoft.com/)                                                      | Framework web                                               |
+| [Entity Framework Core](https://docs.microsoft.com/en-us/ef/core/)                         | Biblioteca para persistência de Dados (ORM)                 |
+| [Serilog](https://serilog.net/)                                                            | Captura de Logs                                             |
+| [Visual Studio 2022](https://visualstudio.microsoft.com/pt-br/)                            | Editor de Código                                            |
+| [Run Coverlet Report](https://github.com/the-dext/RunCoverletReport/blob/master/README.md) | Plugin do Visual Studio para analisar a cobertura de testes |
 
 
 [voltar](#índice)
@@ -80,6 +84,8 @@ d - Crie um usuário com o login 'fiap' e senha 'Fi@p_2@24' e coloque o AloDouto
 [voltar](#índice)
 
 ## Como Executar o Projeto no Kubernetes
+
+### Rancher Desktop
 
 1- Preparando a base de dados
 
@@ -121,6 +127,75 @@ kubectl apply -f .\alo-doutor.yml
 ```
 
 d- Acesse a url http://alo-doutor.127.0.0.1.nip.io/swagger
+
+
+[voltar](#índice)
+
+### Docker Desktop
+
+1- Preparando a base de dados (Local) 
+
+a - Instale o SQL Server 2022 Developer na sua máquina
+        - https://www.microsoft.com/pt-br/sql-server/sql-server-downloads        
+b - Instale o SQL Server Management Studio
+        - https://learn.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-ver16#download-ssms
+
+2- Preparando a base de dados (Docker)
+
+a - Para configurar uma base de dados do SQL Server, tanto no MAC quanto PC, basta usar o tutorial nesse link : https://blog.balta.io/sql-server-docker/
+
+b - Nos utilizamos o seguinte comando para rodar o container  
+```
+docker run -v ~/docker --name sqlserver -e "ACCEPT_EULA=Y" -e "MSSQL_SA_PASSWORD=P@ssw0rd" -p 1435:1433 -d mcr.microsoft.com/mssql/server
+```
+3- Instalando o Kubernetes
+
+a- A aqui utilizamos o Docker Desktop: https://www.docker.com/products/docker-desktop/
+
+b- Habilite o Kubernetes de acordo com as seguintes imagens
+
+![Habilitando Docker 1](./documentacao/imagens/Docker_Kubernetes.png)
+
+![Habilitando Docker 2](./documentacao/imagens/Docker_Kubernetes_2.png)
+
+![Habilitando Docker 3](./documentacao/imagens/Docker_Kubernetes_3.png)
+
+4- Instalando o Ingress Controller
+
+a- Para acessar a aplicação no Kubernetes sem port forward você precisará de um ingress controller. Para isso instale o Helm:
+    https://helm.sh/
+
+b- Com o helm instalado adicione o repositório do NGINX no mesmo com o seguinte comando:
+``` 
+helm repo add ingress-nginx https://kubernetes.github.io/ingress-nginx
+helm repo update
+helm install ingress-nginx-controller ingress-nginx/ingress-nginx
+```
+
+5- Executando a aplicação
+
+a- Abra o arquivo (./k8s/alo-doutor.yml)
+
+b- Se utilizar o banco local altere a linha 22 para ter o IP correto da sua máquina 
+```
+"Server=[SEUIP];Database=AloDoutor;User ID=sa;Password=P@ssw0rd;Trusted_Connection=False; TrustServerCertificate=True;MultipleActiveResultSets=True"
+```
+
+c- E Se utilizar o banco criado no docker altere a linha 22 para ter o IP correto da sua máquina porta do banco de dados, no exemplo acima, foi utilizada a 1435
+```
+"Server=[SEUIP],[PORTA DO BANCO];Database=AloDoutor;User ID=sa;Password=P@ssw0rd;Trusted_Connection=False; TrustServerCertificate=True;MultipleActiveResultSets=True"
+```
+
+d- Acrescente as seguintes linhas `annotations: kubernetes.io/ingress.class: "nginx"` e `ingressClassName: nginx` conforme a imagem abaixo
+
+![Habilitando Docker 4](./documentacao/imagens/Docker_Kubernetes_4.png)
+
+d - Salve o arquivo e no diretorio k8s digite:
+```
+kubectl apply -f .\alo-doutor.yml
+```
+
+e- Acesse a url http://alo-doutor.127.0.0.1.nip.io/swagger
 
 
 [voltar](#índice)
