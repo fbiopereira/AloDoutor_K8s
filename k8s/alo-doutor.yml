@@ -17,9 +17,9 @@ spec:
           image: "fbiopereira/alo-doutor:latest"
           env:        
           - name: "aspnetcore_environment"
-            value: "Staging"          
+            value: "Release"          
           - name: "ConnectionString"
-            value: "Server=192.168.50.179;Database=AloDoutor;User ID=sa;Password=P@ssw0rd;Trusted_Connection=False; TrustServerCertificate=True;MultipleActiveResultSets=True"
+            value: "Server=192.168.50.180;Database=AloDoutor;User ID=sa;Password=P@ssw0rd;Trusted_Connection=False; TrustServerCertificate=True;MultipleActiveResultSets=True"
           ports:
             - containerPort: 4040
           resources:
@@ -31,16 +31,16 @@ spec:
               cpu: "500m"
           livenessProbe:
             httpGet:
-              path: /health
+              path: /heatlh
               port: 4040
-            initialDelaySeconds: 60
-            periodSeconds: 300
+            initialDelaySeconds: 15
+            periodSeconds: 30
           readinessProbe:
             httpGet:
               path: /live
               port: 4040
-            initialDelaySeconds: 30
-            periodSeconds: 120
+            initialDelaySeconds: 15
+            periodSeconds: 15
 ---
 apiVersion: v1
 kind: Service
